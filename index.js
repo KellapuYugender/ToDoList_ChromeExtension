@@ -11,14 +11,16 @@ addBtnEl.addEventListener("click", (e) => {
     task: inputEl.value,
   });
   inputEl.value = "";
-  console.log(myTasks);
-
+  //   console.log(myTasks);
   render(myTasks);
 });
 
-delBtnEl.addEventListener("click", (e) => {
-  console.log(e.target);
-});
+function deleteTask(id) {
+  console.log(id);
+}
+// delBtnEl.addEventListener("click", (e) => {
+//   console.log(e.currentTarget.id);
+// });
 
 function render(tasks) {
   let listItems = "";
@@ -27,7 +29,7 @@ function render(tasks) {
     listItems += `
     <li> ${tasks[i].task}
 
-     <button class= "delete-btn" id="${i + 1}">X</button>
+     <button class= "delete-btn" id="${tasks[i].id}" name="delButton" >X</button>
 
     </li>`;
   }
