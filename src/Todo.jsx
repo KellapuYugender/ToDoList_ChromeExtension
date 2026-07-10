@@ -1,39 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Todo.css";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 
 export default function Todo() {
+  //Init LocalStorage to Empty Arry if LocalStorage is null
+  if (!JSON.parse(localStorage.getItem("tasks"))) {
+    localStorage.setItem("tasks", JSON.stringify([]));
+  }
+
+  //Assining LocalStorage data to tasks state variable when component is mounted for the first time
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")));
   const [newtask, setNewTask] = useState("");
-  const caps = "";
 
   function handleInput(e) {
     setNewTask(e.target.value);
   }
-
+  //Setting Data To Local Storage
+  function setDataToLS(data) {
+    localStorage.setItem("tasks", JSON.stringify(data));
+  }
+  //Adding New Task
   function addTask() {
     if (newtask.trim() !== "") {
       const updatedTasks = [...tasks, newtask];
       setTasks(updatedTasks);
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      setDataToLS(updatedTasks);
       setNewTask("");
     }
   }
-
+  //Deleting Task
   function deleteTask(index) {
     let afterDeleteTasks = [];
     afterDeleteTasks = tasks.filter((task, ind) => index !== ind);
-    localStorage.setItem("tasks", JSON.stringify(afterDeleteTasks));
+    setDataToLS(afterDeleteTasks);
     setTasks(afterDeleteTasks);
   }
   function deleteAll() {
+    setDataToLS([]);
     setTasks([]);
   }
 
   return (
     <>
       <div className="to-do">
-        <h1>TO-DO</h1>
+        <h1>
+          TO-D<button onClick={deleteAll}>O</button>
+        </h1>
         <div className="input-main-div">
           <input
             type="text"
@@ -46,17 +58,17 @@ export default function Todo() {
           <button className="add-task-cls" id="add-task-id" onClick={addTask}>
             <FaPlus color="steelblue" size="40px" />
           </button>
-          {/* <button>deleteAll</button> */}
         </div>
         <ol className="">
           {tasks.map((task, index) => (
             <li key={index}>
+              <span>{index + 1}.</span>
               <span>{task}</span>
               <button
                 className="delete-task-btn"
                 onClick={() => deleteTask(index)}
               >
-                X
+                <FaTrash color="red" size="18px" />
               </button>
             </li>
           ))}
