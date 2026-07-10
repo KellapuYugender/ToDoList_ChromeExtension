@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Todo.css";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash, FaArrowAltCircleDown } from "react-icons/fa";
 
 export default function Todo() {
   //Init LocalStorage to Empty Arry if LocalStorage is null
@@ -44,7 +44,10 @@ export default function Todo() {
     <>
       <div className="to-do">
         <h1>
-          TO-D<button onClick={deleteAll}>O</button>
+          <span>TO-D</span>
+          <button className="delete-all-btn" onClick={deleteAll}>
+            <FaTrash color="red" size="23px" />
+          </button>
         </h1>
         <div className="input-main-div">
           <input
